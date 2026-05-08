@@ -1,0 +1,16 @@
+// import { contextBridge, ipcRenderer } from "electron";
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld("api", {
+    chat: (payload) => ipcRenderer.invoke('chat-service:chat', payload),
+    config: (payload) => ipcRenderer.invoke('chat-service:config', payload),
+    connect: (payload) => ipcRenderer.invoke('chat-service:connect', payload),
+    doAction: (payload) => ipcRenderer.invoke('chat-service:doAction', payload),
+
+    onMessage: (callback) => {
+        ipcRenderer.on('ws:event', (_event, data) => {
+            console.log(data);
+            callback({ data: data, });
+        });
+    },
+});

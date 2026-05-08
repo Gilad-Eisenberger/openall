@@ -1,0 +1,34 @@
+<svg width="220" height="220" viewBox="20 20 220 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .primary { fill: none; stroke: #0b0b0b; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; }
+      .accent { fill: none; stroke: #6b7280; stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+
+    <!-- Mask to subtract the A cleanly from the O -->
+    <mask id="oa-cut">
+      <rect width="100%" height="100%" fill="white"/>
+      <path d="M90 180 L130 70 L170 180 L150 180 L140 150 L120 150 L110 180 Z" fill="black"/>
+    </mask>
+  </defs>
+
+  <!-- Perfect circular O -->
+  <circle cx="130" cy="130" r="90" class="primary" mask="url(#oa-cut)"/>
+
+  <!-- Centered, symmetrical A -->
+  <path class="primary"
+        d="
+          M90 180
+          L130 70
+          L170 180" />
+
+  <!-- Balanced crossbar -->
+  <path class="accent"
+        d="
+          M105 140
+          L155 140" />
+
+  <!-- Subtle inner ring accent -->
+  <circle cx="130" cy="130" r="60" class="accent" />
+
+</svg>

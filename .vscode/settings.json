@@ -1,0 +1,6 @@
+{
+    "files.exclude": {
+        "**/dist": true
+    },
+    "js/ts.tsdk.path": "node_modules\\typescript\\lib"
+}

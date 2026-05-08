@@ -1,0 +1,40 @@
+{
+    "name": "openall-app",
+    "private": true,
+    "author": "openall",
+    "description": "a helpful assistant",
+    "version": "0.0.0",
+    "type": "module",
+    "main": "electron/main.js",
+    "scripts": {
+        "dev": "vite",
+        "start": "electron .",
+        "build": "electron-builder"
+    },
+    "devDependencies": {
+        "concurrently": "^9.2.1",
+        "cross-env": "^10.1.0",
+        "electron": "^42.0.0",
+        "electron-builder": "^26.8.1",
+        "wait-on": "^9.0.5"
+    },
+    "build": {
+        "appId": "com.openall.app",
+        "productName": "open/all",
+        "directories": {
+            "output": "dist"
+        },
+        "files": [
+            "**/*"
+        ],
+        "mac": {
+            "target": "dmg"
+        },
+        "win": {
+            "target": "portable"
+        },
+        "linux": {
+            "target": "AppImage"
+        }
+    }
+}

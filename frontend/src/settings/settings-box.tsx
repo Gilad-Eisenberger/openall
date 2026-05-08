@@ -1,0 +1,38 @@
+import { observer } from "mobx-react-lite";
+import DraggableWindow from "../draggable-window";
+import { counterStore } from "../chat-box";
+
+
+export const SettingsContent = observer(() => {
+
+    const chatPrompt = counterStore.prompts.chatPrompt;
+    const uiActionPrompt = counterStore.prompts.uiActionPrompt;
+
+    return <>
+        <div className="flex-1">
+            <div className="">Chat Prompt</div>
+            <div className="rounded-xl bg-white/80 border-gray-400 border p-2 my-2" contentEditable="true">{chatPrompt}</div>
+            <div className="mt-4">UI Action Prompt</div>
+            <div className="rounded-xl bg-white/80 border-gray-400 border p-2 my-2" contentEditable="true">{uiActionPrompt}</div>
+        </div>
+
+        <div className="pt-2">
+            <button onClick={() => counterStore.setShowSettings(false)}
+                className="w-full py-2 rounded-xl bg-gray-900/80 hover:bg-gray-900 text-white font-medium shadow-md transition">
+                Close
+            </button>
+        </div>
+    </>;
+});
+
+export const SettingsBox = observer(() => {
+    const m = { minimized: false, title: 'Settings', id: -1, };
+
+    return (<>
+        <div>
+            <DraggableWindow loading={false} data={m} modal={true} minimized={m.minimized} windowKey={'win' + m.id} key={'win' + m.id} title={m.title} h={710} w={800}>
+                <SettingsContent />
+            </DraggableWindow>
+        </div>
+    </>);
+});
