@@ -1,6 +1,6 @@
 # openall
 
-OpenAll is an open-source framework that reimagines software for the age of intent. This repository implements a **code-free application architecture**, where human intent is the program and a language model is the runtime.
+openall is an open-source framework that reimagines software for the age of intent. This repository implements a **code-free application architecture**, where human intent is the program and a language model is the runtime.
 
 ## Overview
 
@@ -12,7 +12,7 @@ Traditional software requires a translation layer:
 
 This translation layer has historically been the bottleneck for innovation, speed, and flexibility.  
 
-OpenAll removes that layer. With OpenAll:
+openall removes that layer. With openall:
 
 - Intent drives action directly  
 - No code is required for application logic  
@@ -28,6 +28,6 @@ Commercial use is prohibited without separate permission.
 
 ## Invitation
 
-This is more than software. OpenAll is a **manifesto in action**: the translation layer is gone. Your domain expertise is enough to build complete, auditable, and adaptive business systems.
+This is more than software. openall is a **manifesto in action**: the translation layer is gone. Your domain expertise is enough to build complete, auditable, and adaptive business systems.
 
-The future of software is **intent-first**. OpenAll is proof that it is possible.
+The future of software is **intent-first**. openall is proof that it is possible.
