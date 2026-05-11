@@ -7,8 +7,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-release:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        platform: [mac, windows]
+    runs-on: ${{ matrix.platform == 'mac' && 'macos-latest' || 'ubuntu-latest' }}
     steps:
       # 1. Checkout code
       - name: Checkout code
@@ -55,12 +58,33 @@ jobs:
 
       - name: Build app
         run: |
-          cd app && npm run build
+          cd app && |
+          if [ "${{ matrix.platform }}" == "mac" ]; then
+            npm run build:mac
+          else
+            npm run build:win
+          fi
 
       # Zip app dist for release
       - name: Zip app dist
         run: |
-          cd app && zip -r dist.zip dist
+          cd app && |
+          if [ "${{ matrix.platform }}" == "mac" ]; then
+            zip -r electron-mac.zip dist/mac
+          else
+            zip -r electron-win.zip dist/win
+          fi
+
+          
+      - name: Zip app dist
+        run: |
+          cd app/dist && ls -l
+
+      # - name: Upload build artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: build-output
+      #     path: dist/
 
       # Create GitHub release
       - name: Create Release
@@ -77,6 +101,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/dist.zip
-          asset_name: app-dist.zip
+          asset_path: ${{ matrix.platform == 'mac' && 'app/electron-mac.zip' || 'app/electron-win.zip' }}
+          asset_name: ${{ matrix.platform == 'mac' && 'electron-mac.zip' || 'electron-win.zip' }}
           asset_content_type: application/zip
