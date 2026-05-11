@@ -2,8 +2,8 @@ import { app, BrowserWindow, Menu, ipcMain } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { bootstrap } from '../../core/dist/in-proc.js';
-import { ChatGateway } from '../../core/dist/chat/chat.gateway.js';
+import { bootstrap } from '@openall-ai/core/dist/in-proc.js';
+import { ChatGateway } from '@openall-ai/core/dist/chat/chat.gateway.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,12 +24,7 @@ function createWindow() {
     });
 
     mainWindow = win;
-
-    if (process.env.VITE_DEV_SERVER_URL) {
-        win.loadURL(process.env.VITE_DEV_SERVER_URL);
-    } else {
-        win.loadFile("../frontend/dist/index.html");
-    }
+    win.loadFile("../frontend/dist/index.html");
 }
 
 let client = {

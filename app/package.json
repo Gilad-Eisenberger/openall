@@ -1,9 +1,10 @@
 {
-    "name": "openall-app",
-    "private": true,
-    "author": "openall",
-    "description": "a helpful assistant",
+    "name": "@openall-ai/app",
     "version": "0.0.0",
+    "private": true,
+    "description": "a helpful assistant",
+    "license": "PolyForm Noncommercial",
+    "author": "openall",
     "type": "module",
     "main": "electron/main.js",
     "scripts": {
@@ -16,7 +17,7 @@
     "devDependencies": {
         "concurrently": "^9.2.1",
         "cross-env": "^10.1.0",
-        "electron": "^42.0.0",
+        "electron": "42.0.1",
         "electron-builder": "^26.8.1",
         "wait-on": "^9.0.5"
     },
@@ -26,6 +27,12 @@
         "directories": {
             "output": "dist"
         },
+        "extraResources": [
+            {
+                "from": "../frontend/dist",
+                "to": "frontend/dist"
+            }
+        ],
         "files": [
             "**/*"
         ],

@@ -16,13 +16,17 @@ jobs:
     steps:
       # 1. Checkout code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       # 2. Setup Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: '24'
+
+      - name: Install workspace dependencies
+        run: |
+          npm ci
 
       # === FRONTEND ===
       - name: Install frontend dependencies
@@ -46,16 +50,6 @@ jobs:
       - name: Install app dependencies
         run: |
           cd app && npm ci
-
-      # Copy frontend and core dist into app
-      - name: Copy core dist into app
-        run: |
-          cp -r ./core/dist ./app/
-
-      - name: Copy frontend dist into app as static
-        run: |
-          rm -rf ./app/static
-          cp -r ./frontend/dist ./app/static
 
       - name: Install Wine (Linux only)
         if: matrix.platform == 'windows'
