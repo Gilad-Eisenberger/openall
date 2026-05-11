@@ -56,6 +56,14 @@ jobs:
           rm -rf ./app/static
           cp -r ./frontend/dist ./app/static
 
+      - name: Install Wine (Linux only)
+        if: matrix.platform == 'windows'
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y wine64 wine32
+          wine --version
+
       - name: Build app
         shell: bash
         run: |
