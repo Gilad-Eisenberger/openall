@@ -180,20 +180,32 @@ export class ChatService {
             role: 'user', content: uiActionPrompt,
         })
 
+        let hadContentUpdate = false;
+
         for (let i = 0; i < 10; ++i) {
             const response = await this.runAi(messages);
 
             if (response && response.tools) {
                 console.log('tool call', response.tools);
                 for (let toolResponse of response.tools) {
+                    if (toolResponse.attachment) {
+                        hadContentUpdate = true;
+                    }
                     await this.handleToolCall(toolResponse, messages, this.clients);
                 }
             } else {
-                // const responseItem = { content: response!.content, from: 'James' };
-                // history.push(this.chatHistoryRepo.create({ content: responseItem.content, user: undefined, }));
-                // const agentMessage = this.chatHistoryRepo.create({ content: responseItem.content, user: undefined, conversationId: this.conversationId, });
-                // await this.chatHistoryRepo.save(agentMessage);
-                // this.clients.forEach(c => c.send(JSON.stringify({ event: 'message', data: responseItem })));
+                if (!hadContentUpdate) {
+                    messages.push({
+                        role: 'user', content: 'The user has performed a click but window content was not updated. Ensure you send a tool call to update the window contents following the action the user performed.',
+                    });
+
+                    continue;
+                }
+
+                const responseItem = { content: response!.content, from: 'James' };
+                const agentMessage = this.chatHistoryRepo.create({ content: responseItem.content, user: undefined, conversationId: this.conversationId, });
+                await this.chatHistoryRepo.save(agentMessage);
+                this.clients.forEach(c => c.send(JSON.stringify({ event: 'message', data: responseItem })));
 
                 console.log(response!.content);
                 break;
@@ -232,7 +244,7 @@ export class ChatService {
         }
     }
 
-    async handleClose(data: number ) {
+    async handleClose(data: number) {
         console.log('close', data);
 
         const existingWindow = await this.windowStateRepo.findOneBy({ id: data, });

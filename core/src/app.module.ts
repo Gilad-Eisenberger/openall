@@ -5,9 +5,14 @@ import { ChatModule } from './chat/chat.module';
 import { ChatMessageEntity } from './chat/entities/chat-message.entity';
 import { WindowStateEntity } from './chat/entities/window-state.entity';
 import { join } from 'path';
+import * as os from 'node:os';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { HttpModule } from '@nestjs/axios';
 import { ChatConfigEntity } from './chat/entities/chat-config.entity';
+
+const isElectron = !!process.versions.electron;
+
+const dataDir = isElectron ? join(os.homedir(), '.openall/data') : 'data';
 
 @Module({
     imports: [
@@ -19,14 +24,14 @@ import { ChatConfigEntity } from './chat/entities/chat-config.entity';
         }),
         TypeOrmModule.forRoot({
             type: 'sqlite',
-            database: 'data/chat.sqlite',
+            database: join(dataDir, 'chat.sqlite'),
             entities: [ChatConfigEntity, ChatMessageEntity, WindowStateEntity],
             synchronize: true,
         }),
         TypeOrmModule.forRoot({
             name: 'apps',
             type: 'sqlite',
-            database: 'data/apps.sqlite',
+            database: join(dataDir, 'apps.sqlite'),
             entities: [],
         }),
     ],
