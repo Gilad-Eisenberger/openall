@@ -51,7 +51,7 @@ export const ConfigContent = observer(() => {
 
 
             <div className="pt-2">
-                <button onClick={e => configStore.loadModels()}
+                <button onClick={() => configStore.loadModels(apiKey)}
                     className="w-full py-2 rounded-xl bg-gray-900/80 hover:bg-gray-900 text-white font-medium shadow-md transition">
                     Load Models
                 </button>
