@@ -56,7 +56,7 @@ async function init() {
         return await chatGateway.handleAction(payload);
     });
 
-    ipcMain.handle('chat-service:doAction', async (_event, { msgType, data, }) => {
+    ipcMain.handle('chat-service:sendMessage', async (_event, { msgType, data, }) => {
         return await chatGateway.handleMessage(msgType, data, client);
     });
 
