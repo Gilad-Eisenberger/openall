@@ -67,20 +67,16 @@ jobs:
             npm run build:win
           fi
 
-      - name: ls app dist
-        run: |
-          cd app/dist && ls -l
-
       # Zip app dist for release
       - name: Zip app dist
         run: |
           cd app && 
           if [ "${{ matrix.platform }}" == "mac" ]; then
-            zip -r electron-mac.zip dist/mac-arm64
+            zip -r electron-mac.zip dist/openall-0.2.0.dmg
           elif [ "${{ matrix.platform }}" == "mac64" ]; then
-            zip -r electron-mac64.zip dist/mac-amd64
+            zip -r electron-mac64.zip dist/openall-0.2.0.dmg
           else
-            powershell -Command "Compress-Archive -Path 'dist/win-unpacked/*' -DestinationPath 'electron-win.zip'"
+            powershell -Command "Compress-Archive -Path 'dist/openall 0.2.0.exe' -DestinationPath 'electron-win.zip'"
           fi
 
       - name: Upload build artifacts
