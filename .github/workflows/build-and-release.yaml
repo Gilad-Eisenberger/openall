@@ -67,6 +67,10 @@ jobs:
             npm run build:win
           fi
 
+      - name: ls app dist
+        run: |
+          cd app/dist && ls -l
+
       # Zip app dist for release
       - name: Zip app dist
         run: |
