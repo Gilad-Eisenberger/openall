@@ -111,6 +111,9 @@ export class ChatService {
             case 'close':
                 await this.handleClose(message.data);
                 break;
+            case 'resetData':
+                await this.handleResetData();
+                break;
             default:
                 console.log('unknown message ', message.event, message.data);
                 break;
@@ -163,6 +166,15 @@ export class ChatService {
         prompt = prompt.replace(/\%FORMINPUTS\%/g, dataInputJson);
 
         return prompt;
+    }
+
+    async handleResetData() {
+        await this.chatHistoryRepo.deleteAll();
+        await this.windowStateRepo.deleteAll();
+
+        await this.databaseService.dropDb();
+
+        this.clients.forEach(c => c.send(JSON.stringify({ event: 'refresh', data: {} })));
     }
 
     async handleDoAction(data: { activeWindowId: number, inputs: { [key: string]: string }, args: any[], }) {

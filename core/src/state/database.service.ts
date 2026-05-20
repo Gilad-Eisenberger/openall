@@ -15,4 +15,10 @@ export class DatabaseService {
 
         return result;
     }
+
+    public async dropDb() {
+        await this.appsDataSource.dropDatabase();
+
+        await this.appsDataSource.synchronize();
+    }
 }

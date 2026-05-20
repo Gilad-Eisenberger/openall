@@ -39,6 +39,10 @@ class CounterStore {
             }
             return;
         }
+        if (eventData.event === 'refresh') {
+            window.location.reload();
+            return;
+        }
         if (eventData.event === 'settings') {
             this.prompts = eventData.data.prompts;
             this.initialized = true;
