@@ -5,6 +5,7 @@ import { marked } from "marked";
 import { useState } from "react";
 import DraggableWindow, { activeWindowStore } from "./draggable-window";
 import React from "react";
+import { ShareModal } from "./share-modal";
 
 class CounterStore {
     count = 0;
@@ -14,6 +15,7 @@ class CounterStore {
     showConfig = false;
     showSettings = false;
     initialized = false;
+    shareState: { active: boolean; imageDataUrl: string; windowTitle: string } | null = null;
 
     prompts!: { chatPrompt: string, uiActionPrompt: string, };
 
@@ -107,6 +109,10 @@ class CounterStore {
     sendMessage(messageType: string, data: any) {
         this.connection.then(c => c.sendMessage(messageType, data));
     }
+
+    setShareState(s: typeof this.shareState) {
+        this.shareState = s;
+    }
 }
 
 export const counterStore = new CounterStore();
@@ -172,6 +178,7 @@ export const ChatBox = observer(() => {
 
     return <>
         <WindowList />
+        <ShareModal />
         <div className="fixed bottom-6 left-1/2 w-full max-w-2xl px-4 group" style={{ transform: 'translateX(-50%)' }}>
 
             <div className="overflow-hidden group-focus-within:h-[400px] h-0 transition-[height,opacity] opacity-0 group-focus-within:opacity-100
